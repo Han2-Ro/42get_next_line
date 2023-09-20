@@ -16,12 +16,18 @@ char	*get_next_line(int fd)
 {
 	static int	x = 0;
 	char		*buffer;
+	char		*str;
 	int 		nl_i;
+	void		*ptr;
 
 	buffer = malloc(BUFFER_SIZE * sizeof(char));
-	while (/* condition */)
+	while (nl_i < 0)
 	{
 		read(fd, buffer, BUFFER_SIZE);
+		ptr = str;
+		str = ft_strjoin(str, buffer);
+		free(ptr);
+		nl_i = get_i_of_newline(str);
 	}
 	
 	return (NULL);
