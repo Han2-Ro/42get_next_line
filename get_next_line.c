@@ -16,8 +16,13 @@ char	*get_next_line(int fd)
 {
 	static int	x = 0;
 	char		*buffer;
+	int 		nl_i;
 
 	buffer = malloc(BUFFER_SIZE * sizeof(char));
-	read(fd, buffer, BUFFER_SIZE);
+	while (/* condition */)
+	{
+		read(fd, buffer, BUFFER_SIZE);
+	}
+	
 	return (NULL);
 }

@@ -19,5 +19,6 @@
 # define BUFFER_SIZE 42
 
 char	*get_next_line(int fd);
+int     get_i_of_newline(char *str);
 
 #endif
