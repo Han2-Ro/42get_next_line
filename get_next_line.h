@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 15:23:07 by hrother           #+#    #+#             */
-/*   Updated: 2023/09/20 16:00:12 by hrother          ###   ########.fr       */
+/*   Updated: 2023/09/25 19:14:43 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,13 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-# define BUFFER_SIZE 42
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 3
+# endif
 
+size_t	ft_strlen(const char *str);
 char	*get_next_line(int fd);
-int     get_i_of_newline(char *str);
+int		get_i_of_newline(char *str);
+char	*ft_strjoin(const char *s1, const char *s2);
 
 #endif
