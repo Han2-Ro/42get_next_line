@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 15:23:04 by hrother           #+#    #+#             */
-/*   Updated: 2023/09/25 18:29:11 by hrother          ###   ########.fr       */
+/*   Updated: 2023/09/27 14:29:01 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ size_t	ft_strlen(const char *str)
 
 char	*ft_strjoin(const char *s1, const char *s2)
 {
-	size_t	size;
 	char	*res;
 	int		i;
 
@@ -49,4 +48,18 @@ char	*ft_strjoin(const char *s1, const char *s2)
 		res[i++] = *s2++;
 	res[i] = '\0';
 	return (res);
+}
+
+void	ft_bzero(void *s, size_t n)
+{
+	size_t			i;
+	unsigned char	*p;
+
+	p = s;
+	i = 0;
+	while (i < n)
+	{
+		p[i] = '\0';
+		i++;
+	}
 }

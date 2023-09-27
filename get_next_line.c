@@ -6,22 +6,24 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 15:21:19 by hrother           #+#    #+#             */
-/*   Updated: 2023/09/25 19:43:16 by hrother          ###   ########.fr       */
+/*   Updated: 2023/09/27 14:30:29 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*trim_after_newline(char **str)
+char	*trim_after_newline(char **str, int len)
 {
 	int		i;
-	int 	j;
+	int		j;
 	char	*res;
 	char	*remainder;
 
 	i = 0;
 	j = 0;
-	res = malloc((get_i_of_newline(*str) + 2) * sizeof(char));
+	if (len < 0)
+		len = ft_strlen(*str);
+	res = malloc((len + 2) * sizeof(char));
 	while ((*str)[i])
 	{
 		res[i] = (*str)[i];
@@ -39,7 +41,7 @@ char	*trim_after_newline(char **str)
 		remainder[j] = (*str)[i + j];
 		j++;
 	}
-	remainder[i] = '\0';
+	remainder[j] = '\0';
 	free(*str);
 	*str = remainder;
 	return (res);
@@ -47,7 +49,6 @@ char	*trim_after_newline(char **str)
 
 char	*get_next_line(int fd)
 {
-	static int	x = 0;
 	char		*buffer;
 	static char	*str = NULL;
 	int			nl_i;
@@ -58,14 +59,15 @@ char	*get_next_line(int fd)
 		str = malloc(sizeof(char));
 		str[0] = '\0';
 	}
-	nl_i = -1;
+	nl_i = get_i_of_newline(str);
 	buffer = malloc(BUFFER_SIZE * sizeof(char));
 	while (nl_i < 0)
 	{
+		ft_bzero(buffer, BUFFER_SIZE);
 		if (read(fd, buffer, BUFFER_SIZE) <= 0)
 		{
 			if (*str)
-				return (free(buffer), trim_after_newline(&str));
+				return (free(buffer), trim_after_newline(&str, nl_i));
 			else
 				return (free(buffer), free(str), NULL);
 		}
@@ -74,5 +76,5 @@ char	*get_next_line(int fd)
 		free(ptr);
 		nl_i = get_i_of_newline(str);
 	}
-	return (free(buffer), trim_after_newline(&str));
+	return (free(buffer), trim_after_newline(&str, nl_i));
 }
