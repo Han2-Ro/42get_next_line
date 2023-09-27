@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 15:23:04 by hrother           #+#    #+#             */
-/*   Updated: 2023/09/27 14:29:01 by hrother          ###   ########.fr       */
+/*   Updated: 2023/09/27 15:01:06 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,22 @@ size_t	ft_strlen(const char *str)
 	return (len);
 }
 
-char	*ft_strjoin(const char *s1, const char *s2)
+char	*ft_strjoin(const char *str, const char *buffer)
 {
 	char	*res;
 	int		i;
+	int		j;
 
-	res = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	res = malloc((ft_strlen(str) + BUFFER_SIZE + 1) * sizeof(char));
+	if (!res)
+		return (NULL);
 	i = 0;
-	while (*s1)
-		res[i++] = *s1++;
-	while (*s2)
-		res[i++] = *s2++;
+	j = 0;
+	while (str[j])
+		res[i++] = str[j++];
+	j = 0;
+	while (j < BUFFER_SIZE && buffer[j])
+		res[i++] = buffer[j++];
 	res[i] = '\0';
 	return (res);
 }

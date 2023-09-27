@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 15:23:07 by hrother           #+#    #+#             */
-/*   Updated: 2023/09/27 13:56:49 by hrother          ###   ########.fr       */
+/*   Updated: 2023/09/27 14:46:48 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 size_t	ft_strlen(const char *str);
 char	*get_next_line(int fd);
 int		get_i_of_newline(char *str);
-char	*ft_strjoin(const char *s1, const char *s2);
+char	*ft_strjoin(const char *str, const char *buffer);
 void	ft_bzero(void *s, size_t n);
 
 #endif
