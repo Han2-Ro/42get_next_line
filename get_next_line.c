@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 15:21:19 by hrother           #+#    #+#             */
-/*   Updated: 2023/09/27 14:43:25 by hrother          ###   ########.fr       */
+/*   Updated: 2023/09/27 16:46:11 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*trim_after_newline(char **str, int len)
 
 char	*get_next_line(int fd)
 {
-	char		*buffer;
+	char		buffer[BUFFER_SIZE];
 	static char	*str = NULL;
 	int			nl_i;
 	void		*ptr;
@@ -60,21 +60,20 @@ char	*get_next_line(int fd)
 		str[0] = '\0';
 	}
 	nl_i = get_i_of_newline(str);
-	buffer = malloc(BUFFER_SIZE * sizeof(char));
 	while (nl_i < 0)
 	{
 		ft_bzero(buffer, BUFFER_SIZE);
 		if (read(fd, buffer, BUFFER_SIZE) <= 0)
 		{
 			if (*str)
-				return (free(buffer), trim_after_newline(&str, nl_i));
+				return (trim_after_newline(&str, nl_i));
 			else
-				return (free(buffer), free(str), NULL);
+				return (free(str), str = NULL, NULL);
 		}
 		ptr = str;
 		str = ft_strjoin(str, buffer);
 		free(ptr);
 		nl_i = get_i_of_newline(str);
 	}
-	return (free(buffer), trim_after_newline(&str, nl_i));
+	return (trim_after_newline(&str, nl_i));
 }
