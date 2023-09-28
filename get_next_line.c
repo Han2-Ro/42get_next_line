@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 15:21:19 by hrother           #+#    #+#             */
-/*   Updated: 2023/09/27 19:16:44 by hrother          ###   ########.fr       */
+/*   Updated: 2023/09/28 15:53:15 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,9 @@
 
 char	*trim_after(char **str, int len)
 {
-	int		i;
-	int		j;
 	char	*res;
 	char	*remainder;
 
-	i = 0;
-	j = 0;
 	if (len <= 0)
 		len = ft_strlen(*str);
 	res = malloc((len + 1) * sizeof(char));
@@ -36,13 +32,8 @@ char	*trim_after(char **str, int len)
 	return (res);
 }
 
-char	*get_next_line(int fd)
+char	*init_str(char *str)
 {
-	char		buffer[BUFFER_SIZE];
-	static char	*str = NULL;
-	int			nl_i;
-	void		*ptr;
-
 	if (!str)
 	{
 		str = malloc(sizeof(char));
@@ -50,6 +41,17 @@ char	*get_next_line(int fd)
 			return (NULL);
 		str[0] = '\0';
 	}
+	return (str);
+}
+
+char	*get_next_line(int fd)
+{
+	char		buffer[BUFFER_SIZE];
+	static char	*str = NULL;
+	int			nl_i;
+	void		*ptr;
+
+	str = init_str(str);
 	nl_i = get_i_of_newline(str);
 	while (nl_i < 0)
 	{
