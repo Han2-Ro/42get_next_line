@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 15:21:19 by hrother           #+#    #+#             */
-/*   Updated: 2023/09/29 15:53:11 by hrother          ###   ########.fr       */
+/*   Updated: 2023/09/29 16:19:50 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ int	add_next_buffer(int fd, char **str)
 	char	*result;
 
 	buffer = malloc(BUFFER_SIZE * sizeof(char));
+	if (!buffer)
+		return (-1);
 	ft_bzero(buffer, BUFFER_SIZE);
 	bytes_read = read(fd, buffer, BUFFER_SIZE);
 	if (bytes_read == 0)
@@ -73,6 +75,8 @@ char	*get_next_line(int fd)
 	int			nl_i;
 
 	str = init_str(str);
+	if (!str)
+		return (NULL);
 	nl_i = get_i_of_newline(str);
 	while (nl_i < 0)
 	{
