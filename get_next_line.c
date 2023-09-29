@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 15:21:19 by hrother           #+#    #+#             */
-/*   Updated: 2023/09/29 15:41:44 by hrother          ###   ########.fr       */
+/*   Updated: 2023/09/29 15:53:11 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,22 +46,25 @@ char	*init_str(char *str)
 
 int	add_next_buffer(int fd, char **str)
 {
-	char	buffer[BUFFER_SIZE];
+	char	*buffer;
 	int		bytes_read;
 	char	*result;
 
+	buffer = malloc(BUFFER_SIZE * sizeof(char));
 	ft_bzero(buffer, BUFFER_SIZE);
 	bytes_read = read(fd, buffer, BUFFER_SIZE);
 	if (bytes_read == 0)
-	{
-		return (bytes_read);
-	}
+		return (free(buffer), bytes_read);
 	else if (bytes_read < 0)
-		return (free(*str), *str = NULL, bytes_read);
+	{
+		free(*str);
+		*str = NULL;
+		return (free(buffer), bytes_read);
+	}
 	result = ft_strjoin(*str, buffer);
 	free(*str);
 	*str = result;
-	return (bytes_read);
+	return (free(buffer), bytes_read);
 }
 
 char	*get_next_line(int fd)
