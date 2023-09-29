@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 15:21:19 by hrother           #+#    #+#             */
-/*   Updated: 2023/09/29 15:31:48 by hrother          ###   ########.fr       */
+/*   Updated: 2023/09/29 15:41:44 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	*get_next_line(int fd)
 			return (NULL);
 		nl_i = get_i_of_newline(str);
 	}
-	if (*str)
+	if (str && *str)
 		return (trim_after(&str, nl_i + 1));
 	else
 		return (free(str), str = NULL, NULL);
