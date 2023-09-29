@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 15:21:19 by hrother           #+#    #+#             */
-/*   Updated: 2023/09/28 16:48:59 by hrother          ###   ########.fr       */
+/*   Updated: 2023/09/29 15:31:48 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,57 +44,43 @@ char	*init_str(char *str)
 	return (str);
 }
 
-char	*read_next_buffer(int fd, char *str)
+int	add_next_buffer(int fd, char **str)
 {
 	char	buffer[BUFFER_SIZE];
 	int		bytes_read;
 	char	*result;
 
+	ft_bzero(buffer, BUFFER_SIZE);
 	bytes_read = read(fd, buffer, BUFFER_SIZE);
 	if (bytes_read == 0)
 	{
-		if (*str)
-			return (str);
-		else
-			return (free(str), NULL);
+		return (bytes_read);
 	}
 	else if (bytes_read < 0)
-		return (NULL);
-	result = ft_strjoin(str, buffer);
-	free(str);
-	if (!result)
-		return (NULL);
-	return (result);
+		return (free(*str), *str = NULL, bytes_read);
+	result = ft_strjoin(*str, buffer);
+	free(*str);
+	*str = result;
+	return (bytes_read);
 }
 
 char	*get_next_line(int fd)
 {
-	//char		buffer[BUFFER_SIZE];
 	static char	*str = NULL;
 	int			nl_i;
-	//void		*ptr;
 
 	str = init_str(str);
 	nl_i = get_i_of_newline(str);
 	while (nl_i < 0)
 	{
-		/*ft_bzero(buffer, BUFFER_SIZE);
-		if (read(fd, buffer, BUFFER_SIZE) <= 0)
-		{
-			if (*str)
-				return (trim_after(&str, nl_i + 1));
-			else
-				return (free(str), str = NULL, NULL);
-		}
-		ptr = str;
-		str = ft_strjoin(str, buffer);
-		if (!str)
-			return (NULL);
-		free(ptr);*/
-		str = read_next_buffer(fd, str);
+		if (add_next_buffer(fd, &str) <= 0)
+			break ;
 		if (!str)
 			return (NULL);
 		nl_i = get_i_of_newline(str);
 	}
-	return (trim_after(&str, nl_i + 1));
+	if (*str)
+		return (trim_after(&str, nl_i + 1));
+	else
+		return (free(str), str = NULL, NULL);
 }
