@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 15:21:19 by hrother           #+#    #+#             */
-/*   Updated: 2023/09/29 16:19:50 by hrother          ###   ########.fr       */
+/*   Updated: 2023/09/30 16:42:13 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ char	*trim_after(char **str, int len)
 		len = ft_strlen(*str);
 	res = malloc((len + 1) * sizeof(char));
 	if (!res)
-		return (NULL);
+		return (free(*str), *str = NULL, NULL);
 	ft_strlcpy(res, *str, len + 1);
 	remainder = malloc((ft_strlen(*str) - len + 1) * sizeof(char));
 	if (!remainder)
-		return (NULL);
+		return (free(res), free(*str), *str = NULL, NULL);
 	ft_strlcpy(remainder, *str + len, ft_strlen(*str) - len + 1);
 	free(*str);
 	*str = remainder;
