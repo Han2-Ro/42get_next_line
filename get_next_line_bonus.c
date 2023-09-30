@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 15:21:19 by hrother           #+#    #+#             */
-/*   Updated: 2023/09/30 18:51:20 by hrother          ###   ########.fr       */
+/*   Updated: 2023/09/30 18:59:02 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ char	*get_next_line(int fd)
 	static char	*str[1024];
 	int			nl_i;
 
+	if (fd < 0 || fd >= 1024)
+		return (NULL);
 	str[fd] = init_str(str[fd]);
 	if (!str[fd])
 		return (NULL);
