@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 15:21:19 by hrother           #+#    #+#             */
-/*   Updated: 2023/09/30 16:42:13 by hrother          ###   ########.fr       */
+/*   Updated: 2023/09/30 18:51:20 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*trim_after(char **str, int len)
 {
@@ -71,23 +71,23 @@ int	add_next_buffer(int fd, char **str)
 
 char	*get_next_line(int fd)
 {
-	static char	*str = NULL;
+	static char	*str[1024];
 	int			nl_i;
 
-	str = init_str(str);
-	if (!str)
+	str[fd] = init_str(str[fd]);
+	if (!str[fd])
 		return (NULL);
-	nl_i = get_i_of_newline(str);
+	nl_i = get_i_of_newline(str[fd]);
 	while (nl_i < 0)
 	{
-		if (add_next_buffer(fd, &str) <= 0)
+		if (add_next_buffer(fd, &str[fd]) <= 0)
 			break ;
-		if (!str)
+		if (!str[fd])
 			return (NULL);
-		nl_i = get_i_of_newline(str);
+		nl_i = get_i_of_newline(str[fd]);
 	}
-	if (str && *str)
-		return (trim_after(&str, nl_i + 1));
+	if (str[fd] && *str[fd])
+		return (trim_after(&str[fd], nl_i + 1));
 	else
-		return (free(str), str = NULL, NULL);
+		return (free(str[fd]), str[fd] = NULL, NULL);
 }
